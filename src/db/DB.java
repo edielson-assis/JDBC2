@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.Properties;
 
 public class DB {
@@ -38,7 +39,7 @@ public class DB {
     }
     
     private static Properties loadProperties() {
-        try (FileInputStream fs = new FileInputStream("C:\\Vs_code\\Java_oo\\jdbc\\jdbc2\\src\\db.properties")) {
+        try (FileInputStream fs = new FileInputStream("C:\\Vs_code\\Java_oo\\DaoJdbc\\src\\db.properties")) {
             Properties pros = new Properties();
             pros.load(fs);
             return pros;
@@ -52,6 +53,17 @@ public class DB {
         if (st != null) {
             try {
                 st.close();
+            }
+            catch (SQLException e) {
+                throw new DbException(e.getMessage());
+            }
+        }
+    }
+
+    public static void closeResultset(ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
             }
             catch (SQLException e) {
                 throw new DbException(e.getMessage());
